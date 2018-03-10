@@ -28,7 +28,7 @@ Paginate = 10
 [author]
   name = "Erik"
   github = "biomaks"
-  gaid = "Your Google Analytics ID"
+  gaid = "UA-115476323-1"
   twitter = "biomehanik"
 
 [sitemap]
