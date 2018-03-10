@@ -1,0 +1,38 @@
+baseURL = "http://codeless.ca/"
+languageCode = "en-us"
+title = "Codeless House"
+theme = "temple"
+copyright = "(c) 2018"
+SectionPagesMenu = "main"
+Paginate = 10
+
+
+[permalinks]
+    posts = "/:year/:month/:slug/"
+[params]
+  # Enables syntax highlighting
+  highlight = true
+  # Supports highlighting for languages not included in the original pack
+  # See https://highlightjs.org/download/ for what's included in original pack
+  # For reference to all languages, see:
+  # https://github.com/isagalaev/highlight.js/tree/master/src/languages
+  hjslangs = ["go", "vim", "java", "typescript"]
+
+  # Enables the topmenu, which pulls from categories
+  topmenu = "categories"
+  # Builds a list page for each category given
+  background_color_class = "bg-black"
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+[author]
+  name = "Erik"
+  github = "biomaks"
+  email = "biomaks@gmail.com"
+  gaid = "Your Google Analytics ID"
+  twitter = "biomehanik"
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"
