@@ -1,7 +1,7 @@
 ---
 title: "Grafana and InfluxDB"
-date: 2019-03-20T16:43:44-05:00
-draft: true
+date: 2019-03-23T16:43:44-05:00
+draft: false
 tags: ["performance", "testing", "gatling", "influxdb"]
 ---
 
@@ -12,13 +12,13 @@ InfluxDB is open source time-series database which fits my needs to store result
 
 So you will need `docker` and `docker-compose` installed on your machine. For you convenience I've created git repository with ready to go config files for docker-compose. You just need to clone it:
 
-```bash
-git clone git://
-```
+{{< highlight bash>}}
+git clone git@github.com:biomaks/grafana-influx-kit.git
+{{< / highlight >}}
 
-We'll go through configs one by one so you will have some understanding what's going on there. If you run `tree .` command inside cloned repository the output should look like this:
+We'll go through configs so you will have some understanding what's going on there. If you run `tree .` command inside cloned repository the output should look like this:
 
-{{< highlight ini >}}
+{{< highlight bash >}}
 .
 ├── README.md
 ├── docker-compose.yml
@@ -46,7 +46,7 @@ So first of all I'm going to make this setup working with gatling, gatling can u
 
 so influxdb will use these templates when adding data, and the whole file `influxdb/influxdb.conf` should have content like showed here:
 
-{{< highlight ini >}}
+{{< highlight ini "linenos=table" >}}
 [[graphite]]
   templates = [
     "gatling.*.*.*.* measurement.simulation.request.status.field",
@@ -54,15 +54,6 @@ so influxdb will use these templates when adding data, and the whole file `influ
   ]
   enabled = true
   bind-address = ":2003"
-  database = "graphite"
-  retention-policy = ""
-  protocol = "tcp"
-  batch-size = 5000
-  batch-pending = 10
-  batch-timeout = "1s"
-  consistency-level = "one"
-  separator = "."
-  udp-read-buffer = 0
 
 [meta]
   dir = "/mnt/db/meta"
@@ -75,7 +66,65 @@ so influxdb will use these templates when adding data, and the whole file `influ
   dir = "/mnt/db/hh"
 {{< / highlight >}}
 
-that is basically it for the influxdb. We don't need any configs for grafana, we'll make them through UI.
+that is basically it for the influxdb. We don't need any configs for grafana, we'll make them through the UI. 
+
+At this point we are ready to start our services. I just want to make a note here, that I used specific versions of influxdb and grafana in my docker files instead of using `:latest` versions. I made it by purpose to ensure that my setup will continue working in the future.
+Influxdb will use `8086` and `2003` ports, grafana will be running on `3000` port. So make sure they are available
+
+Let's run it:
+{{< highlight bash>}}
+docker-compose up -d 
+{{< / highlight >}}
+
+
+Once docker containers up, we should create database in influxdb and for this article we will use default admin user. Let's connect to influxdb using `influx` command in order to create database:
+
+{{< highlight bash>}}
+  ~$ docker-compose exec influxdb influx
+  Connected to http://localhost:8086 version 1.7.4
+  InfluxDB shell version: 1.7.4
+  Enter an InfluxQL query
+  >
+{{< / highlight >}}
+
+creating database is simple as (we will use `graphite` name for it):
+{{< highlight bash>}}
+create database graphite
+{{< / highlight >}}
+
+now we done with influxdb so we can close influxdb console (ctrl+d). Grafana should be available on `localhos:3000` default user/password are `admin/admin` it will ask you to change password on first login. So once you are in, you need to add data source and create dashboard.
+
+Follow theses steps to add our influxdb as data source:
+
+1. Go to Configuration -> Data Sources where click on `Add data source` 
+2. Choose InfluxDB
+3. Set url `http://localhost:8086` and select access `Browser` in HTTP section
+4. Set database `graphite` and user/password as `admin/admin` in InfluxDB Details
+
+If everything is correct you will see `Data source is working` after click on `Save and Test` button.
+
+Last thing for today, we need to add dashboard.
+
+1. Hover `+` icon on the left sidebar and select `Import` option. 
+2. Copy and paste the content of `tmpl.json` file into opened JSON form input and click `Load` button 
+3. Confirm options by clicking green `Import` button
+
+So now, you are ready to run you gatling tests and see how it goes in real time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
