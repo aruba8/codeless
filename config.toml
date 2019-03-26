@@ -1,4 +1,4 @@
-baseURL = "http://codeless.ca/"
+baseURL = "https://codeless.ca/"
 languageCode = "en-us"
 title = "Codeless House"
 theme = "temple"
@@ -7,7 +7,6 @@ SectionPagesMenu = "main"
 Paginate = 10
 pygmentsStyle = "solarized-dark"
 pygmentsCodeFences = true
-
 
 [permalinks]
     posts = "/:year/:month/:slug/"

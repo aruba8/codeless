@@ -5,7 +5,7 @@ tags: ["intro"]
 draft: false
 ---
 
-  Hello this is my first post. Just to introduce my self, I want to say that my name is Erik, I live in Winnipeg, Canada where I moved to  from Russia. I love coding and other IT stuff. Please forgive me my English, I promise I'll try to do everything to lessen my grammar mistakes.
+  Hello this is my first post. Just to introduce my self, I want to say that my name is Erik, I live in Winnipeg, Canada where I moved to  from Russia. I love coding/testing and other IT stuff.
 
   You might wondering, why codeless, if I love coding?! To be honest, I don't know :) I just like this domain name.
 
